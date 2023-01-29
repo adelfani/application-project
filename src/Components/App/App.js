@@ -1,5 +1,9 @@
 import "./App.css";
 import { useState } from "react";
+import SearchBar from "../SearchBar/SearchBar";
+import SearchResults from "../SearchResults/SearchResults";
+import Playlist from "../Playlist/Playlist";
+import Spotify from "../../util/Spotify";
 
 const App = () => {
   const [searchResults, setSearchResults] = useState([]);
@@ -19,29 +23,42 @@ const App = () => {
     setPlaylistTracks([...tracksWithout]);
   };
 
-  const updatePlaylistName = name => {
+  const updatePlaylistName = (name) => {
     setPlaylistName(name);
-  }
+  };
 
   const savePlaylist = () => {
-    const trackUri = playlistTracks.map(track => track.uri);
-  }
+    const trackUris = playlistTracks.map((track) => track.uri);
+    Spotify.savePlaylist(playlistName, trackUris).then(() => {
+      setPlaylistName("New Playlist");
+      setPlaylistTracks([]);
+    });
+  };
+
+  const search = (term) => {
+    Spotify.search(term).then((result) => {
+      setSearchResults(result);
+    });
+  };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>
+        Ja<span className="highlight">mmm</span>ing
+      </h1>
+      <div className="App">
+        <SearchBar onSearch={search} />
+        <div className="App-playlist">
+          <SearchResults SearchResults={searchResults} onAdd={addTrack} />
+          <Playlist
+            playlistName={playlistName}
+            playlistTracks={playlistTracks}
+            onRemove={removeTrack}
+            onNameChange={updatePlaylistName}
+            onSave={savePlaylist}
+          />
+        </div>
+      </div>
     </div>
   );
 };
