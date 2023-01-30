@@ -38,9 +38,10 @@ const App = () => {
     Spotify.savePlaylist(playlistName, trackUris).then(() => {
       setPlaylistName("New Playlist");
       setPlaylistTracks([]);
+      setSearchResults([]);
     });
   };
-  
+
   // Functie om een zoekopdracht uit te voeren met een specifieke term
   const search = (term) => {
     Spotify.search(term).then((result) => {
