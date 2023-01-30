@@ -1,6 +1,9 @@
 import "./Track.css";
 
+// De Track-component is een functionele component die zijn gegevens ontvangt via props
 const Track = (props) => {
+
+  // Helperfunctie om te bepalen welke actieknop moet worden weergegeven: '+' of '-'
   const renderAction = () => {
     if (props.isRemoval) {
       return (
@@ -13,9 +16,13 @@ const Track = (props) => {
     }
   };
 
+  // Functie die de onAdd-prop aanroept met de trackgegevens
   const addTrack = () => props.onAdd(props.track);
+
+  // Functie die de onRemove-prop aanroept met de trackgegevens
   const removeTrack = () => props.onRemove(props.track);
 
+  // Geef de trackinformatie en de actieknop weer
   return (
     <div className="Track">
       <div className="Track-information">

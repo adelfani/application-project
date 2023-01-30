@@ -1,6 +1,8 @@
 import "./SearchResults.css";
+// Importeer de TrackList-component
 import TrackList from "../TrackList/TrackList";
 
+// De component SearchResults is een functionele component die props als argument accepteert.
 const SearchResults = (props) => {
   return (
     <div className="SearchResults">
